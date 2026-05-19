@@ -185,5 +185,26 @@ public class Graph {
         System.out.println("\nDistancia total: " + distanceMatrix[i][j] + " km");
 
     }
+
+    public String graphCenter() {
+        int minEccentricity = INF;
+        String center = "";
+
+        for (int i = 0; i < size; i ++) {
+            int eccentricity = 0;
+
+            for (int j = 0; j < size; j ++) {
+                if (distanceMatrix[i][j] != INF && distanceMatrix[i][j] > eccentricity) {
+                    eccentricity = distanceMatrix[i][j];
+                }
+            }
+
+            if (eccentricity < minEccentricity) {
+                minEccentricity = eccentricity;
+                center = cities.get(i);
+            }
+        }
+        return center;
+    }
     
 }

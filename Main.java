@@ -8,6 +8,9 @@ public class Main {
 
         graph.distanceMatrix();
 
-        graph.shortestPath("CAES", "VillaNueva");
+        System.out.println(
+            "\nCentro del grafo: " +
+            graph.graphCenter()
+        );
     }
 }
