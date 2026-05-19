@@ -1,20 +1,17 @@
 public class Main {
+
     public static void main(String[] args) {
 
-        Graph graph = new Graph(10);
+        Graph graph = FileHelper.loadGraph("guategrafo.txt");
 
-        graph.addEdge("Mixco", "Antigua", 30);
-        graph.addEdge("Antigua", "Escuintla", 25);
-        graph.addEdge("Escuintla", "SantaLucia", 15);
+        if (graph != null) {
 
-        System.out.println("Matriz original: ");
-        graph.printMatrix();
+            System.out.println("Grafo cargado desde archivo");
+            graph.printMatrix();
 
-        System.out.println();
+        } else {
 
-        graph.removeEdge("Antigua", "Escuintla");
-
-        System.out.println("Matriz después de la eliminación: ");
-        graph.printMatrix();
+            System.out.println("No se pudo cargar el grafo.");
+        }
     }
 }
