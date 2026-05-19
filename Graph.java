@@ -37,6 +37,9 @@ public class Graph {
 
     public void addCity(String city) {
         if (!cityIndex.containsKey(city)) {
+            if (size >= adjacencyMatrix.length) {
+                resize();
+            }
             cities.add(city);
             cityIndex.put(city, size);
 
@@ -114,7 +117,7 @@ public class Graph {
         }
     }
 
-    public void distanceMatrix() { //método temporal para validar la matriz de distancias mínimas
+    public void distanceMatrix() { 
 
         System.out.println("\nMatriz de distancias mínimas");
 
@@ -207,4 +210,28 @@ public class Graph {
         return center;
     }
     
+    private void resize() {
+        int newSize = adjacencyMatrix.length * 2;
+        int[][] newMatrix = new int[newSize][newSize];
+
+        for (int i = 0; i < newSize; i++) {
+            for (int j = 0; j < newSize; j++) {
+                if (i == j) {
+                    newMatrix[i][j] = 0;
+                } else {
+                    newMatrix[i][j] = INF;
+                }
+            }
+        }
+
+        for (int i = 0; i < size; i++) {
+
+            for (int j = 0; j < size; j++) {
+
+                newMatrix[i][j] = adjacencyMatrix[i][j];
+            }
+        }
+        
+        adjacencyMatrix = newMatrix;
+    }   
 }
