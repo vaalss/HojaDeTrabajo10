@@ -142,5 +142,48 @@ public class Graph {
             System.out.println();
         }
     }
+
+    private void path(int i, int j, ArrayList<String> path) {
+        int intermediate = pathMatrix[i][j];
+        if (intermediate == -1) {
+            return;
+        }
+        path(i, intermediate, path);
+        path.add(cities.get(intermediate));
+        path(intermediate, j, path);
+    }
+
+    public void shortestPath(String from, String to) {
+        if (!cityIndex.containsKey(from) || !cityIndex.containsKey(to)) {
+            System.out.println("Ciudad no encontrada");
+            return;
+        } 
+
+        int i = cityIndex.get(from);
+        int j = cityIndex.get(to);
+
+        if(distanceMatrix[i][j] == INF) {
+            System.out.println("No existe la ruta");
+            return;
+        }
+
+        ArrayList<String> path = new ArrayList<>();
+        path.add(from);
+        path(i, j, path);
+        path.add(to);
+
+        System.out.println("\nRuta más corta: ");
+
+        for (int k = 0; k < path.size(); k ++) {
+            System.out.print(path.get(k));
+
+            if (k < path.size() - 1) {
+                System.out.print(" -> ");
+            }
+        }
+
+        System.out.println("\nDistancia total: " + distanceMatrix[i][j] + " km");
+
+    }
     
 }
