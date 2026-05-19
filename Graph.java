@@ -8,6 +8,8 @@ public class Graph {
     private ArrayList<String> cities;
     private HashMap<String, Integer> cityIndex;
     private int [][] adjacencyMatrix;
+    private int [][] distanceMatrix; //distancia mínima
+    private int [][] pathMatrix; //nodo intermedio
     private int size;
 
     public Graph(int maxCities) {
@@ -79,6 +81,64 @@ public class Graph {
                     System.out.printf("%15d", adjacencyMatrix[i][j]);
                 }
             }
+            System.out.println();
+        }
+    }
+
+    private void floydInit() {
+        distanceMatrix = new int[size][size];
+        pathMatrix = new int[size][size];
+
+        for (int i = 0; i < size; i ++) {
+            for (int j = 0; j < size; j ++) {
+                distanceMatrix[i][j] = adjacencyMatrix[i][j];
+                pathMatrix[i][j] = -1; //-1 si no hay nodos intermedios
+            }
+        }
+    }
+
+    public void floyd() {
+        floydInit();
+        for (int k = 0; k < size; k ++) {
+            for (int i = 0; i < size; i++) {
+                for (int j = 0; j < size; j++) {
+
+                    if (distanceMatrix[i][k] != INF && distanceMatrix[k][j] != INF && 
+                        distanceMatrix[i][j] > distanceMatrix[i][k] + distanceMatrix[k][j]) {
+                            
+                            distanceMatrix[i][j] = distanceMatrix[i][k] + distanceMatrix[k][j];
+                            pathMatrix[i][j] = k;
+                    } 
+                }
+            }
+        }
+    }
+
+    public void distanceMatrix() { //método temporal para validar la matriz de distancias mínimas
+
+        System.out.println("\nMatriz de distancias mínimas");
+
+        System.out.printf("%15s", "");
+
+        for (String city : cities) {
+            System.out.printf("%15s", city);
+        }
+
+        System.out.println();
+
+        for (int i = 0; i < size; i++) {
+
+            System.out.printf("%15s", cities.get(i));
+
+            for (int j = 0; j < size; j++) {
+
+                if (distanceMatrix[i][j] == INF) {
+                    System.out.printf("%15s", "INF");
+                } else {
+                    System.out.printf("%15d", distanceMatrix[i][j]);
+                }
+            }
+
             System.out.println();
         }
     }
