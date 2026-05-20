@@ -1,17 +1,30 @@
+/**
+ * Valeria Hernández 25086
+ */
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Implementación de un grafo dirigido usando la matriz de adyacencia
+ * Usa el algoritmo de Floyd para calcular rutas mínimas y el centro del grafo
+ */
 public class Graph {
 
-    private static final int INF = 999999;
+    private static final int INF = 999999; //valor para representar infinito
 
     private ArrayList<String> cities;
     private HashMap<String, Integer> cityIndex;
     private int [][] adjacencyMatrix;
     private int [][] distanceMatrix; //distancia mínima
-    private int [][] pathMatrix; //nodo intermedio
+    private int [][] pathMatrix; //nodos intermedios
     private int size;
 
+    /**
+     * Constructor del grafo
+     * 
+     * @param maxCities cantidad inicial de ciudades
+     */
     public Graph(int maxCities) {
         cities = new ArrayList<>();
         cityIndex = new HashMap<>();
@@ -23,6 +36,9 @@ public class Graph {
         matrixInit(maxCities);
     }
 
+     /**
+     * Inicializa la matriz de adyacencia
+     */
     private void matrixInit(int maxCities) {
         for (int i = 0; i < maxCities; i++) {
             for (int j = 0; j < maxCities; j++) {
@@ -37,7 +53,7 @@ public class Graph {
 
     public void addCity(String city) {
         if (!cityIndex.containsKey(city)) {
-            if (size >= adjacencyMatrix.length) {
+            if (size >= adjacencyMatrix.length) { //si es necesario, redimensiona la matriz
                 resize();
             }
             cities.add(city);
@@ -66,7 +82,7 @@ public class Graph {
         }
     }
 
-    public void printMatrix() {
+    public void printMatrix() { //imprime la matriz de adyacencia
         System.out.printf("%15s", "");
 
         for (String city : cities) {
@@ -88,6 +104,9 @@ public class Graph {
         }
     }
 
+    /**
+     * Inicializa las matrices utilizadas por Floyd
+     */
     private void floydInit() {
         distanceMatrix = new int[size][size];
         pathMatrix = new int[size][size];
@@ -146,6 +165,12 @@ public class Graph {
         }
     }
 
+    /**
+     * Construye la ruta más corta entre dos ciudades usando la matriz de nodos intermedios de forma recursiva
+     * @param i
+     * @param j
+     * @param path
+     */
     private void path(int i, int j, ArrayList<String> path) {
         int intermediate = pathMatrix[i][j];
         if (intermediate == -1) {
@@ -189,6 +214,11 @@ public class Graph {
 
     }
 
+    /**
+     * Calcula el centro del grafo.
+     * 
+     * @return ciudad considerada centro del grafo
+     */
     public String graphCenter() {
         int minEccentricity = INF;
         String center = "";
@@ -210,6 +240,9 @@ public class Graph {
         return center;
     }
     
+    /**
+     * Redimensiona dinámicamente la matriz del grafo si se necesita más espacio
+     */
     private void resize() {
         int newSize = adjacencyMatrix.length * 2;
         int[][] newMatrix = new int[newSize][newSize];
@@ -233,5 +266,17 @@ public class Graph {
         }
         
         adjacencyMatrix = newMatrix;
-    }   
+    }
+    
+    public int[][] getAdjacencyMatrix() {
+        return adjacencyMatrix;
+    }
+
+    public int[][] getDistanceMatrix() {
+        return distanceMatrix;
+    }
+
+    public int getCityIndex(String city) {
+        return cityIndex.get(city);
+    }
 }
